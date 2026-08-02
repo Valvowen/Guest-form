@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parte de Viajeros · Guest Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f7f6f1;
+    --panel: #ffffff;
+    --ink: #1c2624;
+    --ink-soft: #5a655f;
+    --sea-deep: #17435b;
+    --sea: #2e7da3;
+    --ochre: #c69a4e;
+    --olive: #6d7a54;
+    --line: #dcdad0;
+    --line-soft: #eae8de;
+    --error: #b1432f;
+    --radius: 4px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      linear-gradient(180deg, var(--sea-deep) 0%, var(--sea-deep) 120px, var(--bg) 120px);
+    color: var(--ink);
+    font-family:'Inter', sans-serif;
+    padding-bottom:80px;
+  }
+  .wrap{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  header.top{
+    max-width:760px;
+    margin:0 auto;
+    padding: 34px 20px 0;
+    color:#f4f0e4;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color: rgba(244,240,228,.72);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow .dot{width:5px;height:5px;background:var(--ochre);border-radius:50%;display:inline-block;}
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:34px;
+    margin:8px 0 22px;
+    letter-spacing:-.01em;
+  }
+  h1 small{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:400;
+    color: rgba(244,240,228,.68);
+    margin-top:6px;
+    letter-spacing:.01em;
+  }
+
+  .seal{
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    margin-top: -46px;
+    margin-bottom: 28px;
+    padding: 18px 22px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    box-shadow: 0 10px 30px -18px rgba(23,67,91,.35);
+  }
+  .seal .lock{
+    flex:none;
+    width:34px;height:34px;
+    border-radius:50%;
+    background: var(--sea-deep);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .seal .lock svg{width:16px;height:16px;stroke:#f4f0e4;}
+  .seal .txt .k{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color: var(--ink-soft);
+    margin-bottom:3px;
+  }
+  .seal .txt .v{
+    font-family:'Fraunces', serif;
+    font-size:17px;
+    color: var(--sea-deep);
+    font-weight:500;
+  }
+  .seal .fixed-tag{
+    margin-left:auto;
+    flex:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color: var(--olive);
+    border:1px solid var(--olive);
+    border-radius: 20px;
+    padding:4px 10px;
+    white-space:nowrap;
+  }
+
+  .card{
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px 26px 8px;
+    margin-bottom: 22px;
+  }
+  .section-title{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:20px;
+    padding-bottom:14px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .section-title .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:#fff;
+    background: var(--sea);
+    width:22px;height:22px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex:none;
+  }
+  .section-title h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:19px;
+    margin:0;
+    color: var(--sea-deep);
+  }
+  .section-title span.sub{
+    font-size:12px;
+    color: var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 18px;
+    margin-bottom:18px;
+  }
+  .grid.g1{grid-template-columns:1fr;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field.span2{grid-column: 1 / -1;}
+  label{
+    font-size:12px;
+    font-weight:600;
+    color: var(--ink);
+  }
+  label .tr{
+    font-weight:400;
+    color: var(--ink-soft);
+    font-size:11px;
+  }
+  input[type=text], input[type=email], input[type=tel], input[type=date], select{
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    background:#fdfdfb;
+    color:var(--ink);
+    width:100%;
+  }
+  input:focus, select:focus{
+    outline: none;
+    border-color: var(--sea);
+    box-shadow: 0 0 0 3px rgba(46,125,163,.15);
+  }
+  input:disabled{
+    background: #f1f0ea;
+    color: var(--ink-soft);
+    cursor:not-allowed;
+  }
+  .radio-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .radio-pill{
+    position:relative;
+  }
+  .radio-pill input{
+    position:absolute;
+    opacity:0;
+    inset:0;
+    cursor:pointer;
+  }
+  .radio-pill span{
+    display:inline-flex;
+    align-items:center;
+    padding:8px 14px;
+    border:1px solid var(--line);
+    border-radius: 20px;
+    font-size:13px;
+    color: var(--ink-soft);
+    background:#fdfdfb;
+    transition: all .12s ease;
+  }
+  .radio-pill input:checked + span{
+    border-color: var(--sea-deep);
+    background: var(--sea-deep);
+    color:#f4f0e4;
+  }
+  .hint{font-size:11px;color:var(--ink-soft);margin-top:-4px;}
+  .conditional{
+    display:none;
+  }
+  .conditional.show{display:flex;}
+
+  .sig-wrap{
+    border:1.5px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(#fdfdfb, #fdfdfb),
+      repeating-linear-gradient(transparent 0 27px, var(--line-soft) 27px 28px);
+    position:relative;
+    touch-action:none;
+  }
+  .sig-wrap canvas{
+    display:block;
+    width:100%;
+    height:150px;
+    cursor: crosshair;
+  }
+  .sig-placeholder{
+    position:absolute;
+    left:14px; bottom:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color: var(--ink-soft);
+    opacity:.55;
+    pointer-events:none;
+  }
+  .sig-toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:6px;
+  }
+  .sig-clear{
+    background:none;
+    border:none;
+    color: var(--sea);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+    padding:2px 0;
+  }
+  .sig-clear:hover{text-decoration:underline;}
+  .sig-status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color: var(--ink-soft);
+  }
+  .rev-signature{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dotted var(--line-soft);
+  }
+  .rev-signature .k{
+    font-size:11px;
+    color: var(--ink-soft);
+    margin-bottom:6px;
+    font-family:'IBM Plex Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .rev-signature img{
+    max-width:260px;
+    max-height:90px;
+    border:1px solid var(--line-soft);
+    border-radius: var(--radius);
+    background:#fdfdfb;
+  }
+  .rev-signature .no-sig{
+    font-size:12px;
+    color: var(--error);
+    font-style:italic;
+  }
+
+  .traveller-block{ position:relative; }
+  .traveller-block + .traveller-block{
+    margin-top: 26px;
+    padding-top: 26px;
+    border-top: 1px dashed var(--line);
+  }
+  .remove-traveller{
+    position:absolute;
+    top:0;right:0;
+    background:none;
+    border:none;
+    color: var(--error);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+    padding:4px 0;
+  }
+  .remove-traveller:hover{text-decoration:underline;}
+
+  .add-traveller{
+    width:100%;
+    margin: 4px 0 22px;
+    padding:13px;
+    background: none;
+    border:1.5px dashed var(--sea);
+    border-radius: var(--radius);
+    color: var(--sea-deep);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .add-traveller:hover{background: rgba(46,125,163,.06);}
+
+  .actions{
+    display:flex;
+    gap:12px;
+    margin-top: 6px;
+  }
+  button.primary{
+    flex:1;
+    padding:15px;
+    background: var(--sea-deep);
+    color:#f4f0e4;
+    border:none;
+    border-radius: var(--radius);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+  }
+  button.primary:hover{background:#123549;}
+  button.ghost{
+    padding:15px 18px;
+    background:none;
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink-soft);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+
+  .wave{
+    height:14px;
+    background: repeating-linear-gradient(115deg, var(--sea) 0 3px, transparent 3px 9px);
+    opacity:.35;
+    margin: 0 0 22px;
+    border-radius:3px;
+  }
+
+  #review{ display:none; }
+  #review .card{ padding: 26px; }
+  .rev-entry{
+    border:1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding:16px 18px;
+    margin-bottom:12px;
+    background:#fdfdfb;
+  }
+  .rev-entry h3{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    margin:0 0 10px;
+    color:var(--sea-deep);
+  }
+  .rev-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    padding:5px 0;
+    border-bottom:1px dotted var(--line-soft);
+    gap:16px;
+  }
+  .rev-row:last-child{border-bottom:none;}
+  .rev-row .k{color:var(--ink-soft);}
+  .rev-row .v{font-weight:500;text-align:right;}
+
+  .status-msg{
+    display:none;
+    font-size:13px;
+    color: var(--olive);
+    font-family:'IBM Plex Mono', monospace;
+    margin-top:10px;
+  }
+
+  @media print{
+    body{background:#fff;}
+    header.top, .seal .fixed-tag, .card:not(#review .card), .actions, .add-traveller, .remove-traveller, .wave, form{display:none !important;}
+    #review{display:block !important;}
+  }
+
+  @media (max-width:600px){
+    .grid{grid-template-columns:1fr;}
+    h1{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow"><span class="dot"></span>Registro de Viajeros · Orihuela, Alicante</div>
+  <h1>Parte de Viajeros
+    <small>Guest registration for your stay · Registre des voyageurs</small>
+  </h1>
+</header>
+
+<div class="wrap">
+
+  <div class="seal">
+    <div class="lock">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    </div>
+    <div class="txt">
+      <div class="k">Alojamiento · Property</div>
+      <div class="v">C. W. A. Mozart, 223, 03189 Orihuela, Alicante, España</div>
+    </div>
+    <div class="fixed-tag">Fixed for this property</div>
+  </div>
+
+  <form id="parteForm">
+
+    <div class="card">
+      <div class="section-title">
+        <div class="num">1</div>
+        <h2>Datos de la estancia</h2>
+        <span class="sub">STAY</span>
+      </div>
+      <div class="grid">
+        <div class="field">
+          <label>Fecha de entrada <span class="tr">· Check-in date</span></label>
+          <input type="date" id="checkin" required>
+        </div>
+        <div class="field">
+          <label>Fecha de salida <span class="tr">· Check-out date</span></label>
+          <input type="date" id="checkout" required>
+        </div>
+      </div>
+      <div class="grid g1">
+        <div class="field">
+          <label>Nº de viajeros <span class="tr">· Number of travellers</span></label>
+          <input type="text" id="travellerCountDisplay" disabled value="1">
+          <span class="hint">Updates automatically as you add or remove travellers below.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wave"></div>
+
+    <div class="card">
+      <div class="section-title">
+        <div class="num">2</div>
+        <h2>Datos del viajero</h2>
+        <span class="sub">TRAVELLER(S)</span>
+      </div>
+
+      <div id="travellersContainer"></div>
+
+      <button type="button" class="add-traveller" id="addTraveller">+ Add another traveller</button>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary">Review &amp; prepare submission</button>
+      <button type="button" class="ghost" id="resetForm">Reset</button>
+    </div>
+    <div class="status-msg" id="statusMsg"></div>
+  </form>
+
+  <div id="review">
+    <div class="card">
+      <div class="section-title">
+        <div class="num">✓</div>
+        <h2>Summary</h2>
+        <span class="sub">READY TO PRINT / SAVE</span>
+      </div>
+      <div id="reviewContent"></div>
+      <div class="actions" style="margin-top:18px;">
+        <button type="button" class="primary" id="printBtn">Print / Save as PDF</button>
+        <button type="button" class="ghost" id="backBtn">Back to form</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<template id="travellerTemplate">
+  <div class="traveller-block" data-idx="">
+    <button type="button" class="remove-traveller">Remove</button>
+
+    <div class="grid g1">
+      <div class="field">
+        <label>Nombre y apellidos <span class="tr">· Full name</span></label>
+        <input type="text" class="f-name" required autocomplete="name">
+      </div>
+    </div>
+
+    <div class="grid g1">
+      <div class="field">
+        <label>Tipo de documento <span class="tr">· Document type</span></label>
+        <div class="radio-row doc-type-row">
+          <label class="radio-pill"><input type="radio" name="doctype" value="DNI"><span>DNI</span></label>
+          <label class="radio-pill"><input type="radio" name="doctype" value="NIE"><span>NIE</span></label>
+          <label class="radio-pill"><input type="radio" name="doctype" value="Passport"><span>Passport</span></label>
+          <label class="radio-pill"><input type="radio" name="doctype" value="Other"><span>Other</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <label>Número de documento <span class="tr">· Document number</span></label>
+        <input type="text" class="f-docnum" required>
+      </div>
+      <div class="field support-field">
+        <label>Nº de soporte <span class="tr">· Support number</span></label>
+        <input type="text" class="f-support">
+        <span class="hint">Only for DNI and NIE</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <label>Nacionalidad <span class="tr">· Nationality</span></label>
+        <input type="text" class="f-nationality" required>
+      </div>
+      <div class="field">
+        <label>Fecha de nacimiento <span class="tr">· Date of birth</span></label>
+        <input type="date" class="f-dob" required>
+      </div>
+    </div>
+
+    <div class="grid g1">
+      <div class="field">
+        <label>Sexo <span class="tr">· Sex</span></label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="sex" value="Hombre / Male"><span>Hombre / Male</span></label>
+          <label class="radio-pill"><input type="radio" name="sex" value="Mujer / Female"><span>Mujer / Female</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <label>Teléfono <span class="tr">· Phone</span></label>
+        <input type="tel" class="f-phone">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" class="f-email">
+      </div>
+    </div>
+
+    <div class="grid g1">
+      <div class="field">
+        <label>Dirección <span class="tr">· Home address</span></label>
+        <input type="text" class="f-address" required>
+      </div>
+    </div>
+
+    <div class="grid g1">
+      <div class="field minor-field">
+        <label>Parentesco <span class="tr">· Relationship to accompanying adult</span></label>
+        <input type="text" class="f-relationship">
+        <span class="hint">Only if traveller is a minor</span>
+      </div>
+    </div>
+
+    <div class="grid g1">
+      <div class="field">
+        <label>Firma del viajero <span class="tr">· Traveller's signature</span></label>
+        <div class="sig-wrap">
+          <canvas class="f-signature"></canvas>
+          <span class="sig-placeholder">Sign here with mouse or finger</span>
+        </div>
+        <div class="sig-toolbar">
+          <span class="sig-status">Only required for guests aged 14+</span>
+          <button type="button" class="sig-clear">Clear signature</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+(function(){
+  const container = document.getElementById('travellersContainer');
+  const template = document.getElementById('travellerTemplate');
+  const countDisplay = document.getElementById('travellerCountDisplay');
+  const PROPERTY_FIXED = "C. W. A. Mozart, 223, 03189 Orihuela, Alicante, España";
+  let travellerCount = 0;
+
+  function addTraveller(){
+    travellerCount++;
+    const node = template.content.cloneNode(true);
+    const block = node.querySelector('.traveller-block');
+    block.dataset.idx = travellerCount;
+
+    // unique radio group names per traveller
+    block.querySelectorAll('input[name="doctype"]').forEach(el => el.name = 'doctype_'+travellerCount);
+    block.querySelectorAll('input[name="sex"]').forEach(el => el.name = 'sex_'+travellerCount);
+
+    const removeBtn = block.querySelector('.remove-traveller');
+    removeBtn.addEventListener('click', () => {
+      block.remove();
+      updateCount();
+      updateRemoveVisibility();
+    });
+
+    container.appendChild(block);
+    initSignaturePad(block);
+    updateCount();
+    updateRemoveVisibility();
+  }
+
+  function initSignaturePad(block){
+    const canvas = block.querySelector('.f-signature');
+    const placeholder = block.querySelector('.sig-placeholder');
+    const clearBtn = block.querySelector('.sig-clear');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let hasInk = false;
+    let last = {x:0,y:0};
+
+    function sizeCanvas(){
+      const rect = canvas.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      ctx.scale(ratio, ratio);
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#17435b';
+    }
+    sizeCanvas();
+    // re-size once layout has settled (fonts/webfont swap can shift width)
+    setTimeout(sizeCanvas, 300);
+
+    function pos(e){
+      const rect = canvas.getBoundingClientRect();
+      const point = e.touches ? e.touches[0] : e;
+      return { x: point.clientX - rect.left, y: point.clientY - rect.top };
+    }
+
+    function start(e){
+      e.preventDefault();
+      drawing = true;
+      last = pos(e);
+    }
+    function move(e){
+      if(!drawing) return;
+      e.preventDefault();
+      const p = pos(e);
+      ctx.beginPath();
+      ctx.moveTo(last.x, last.y);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      last = p;
+      if(!hasInk){
+        hasInk = true;
+        placeholder.style.display = 'none';
+      }
+    }
+    function end(){ drawing = false; }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', end);
+    canvas.addEventListener('touchstart', start, {passive:false});
+    canvas.addEventListener('touchmove', move, {passive:false});
+    canvas.addEventListener('touchend', end);
+
+    clearBtn.addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasInk = false;
+      placeholder.style.display = 'block';
+    });
+
+    block._sigApi = {
+      hasSignature: () => hasInk,
+      getDataUrl: () => hasInk ? canvas.toDataURL('image/png') : null
+    };
+  }
+
+  function updateCount(){
+    const n = container.querySelectorAll('.traveller-block').length;
+    countDisplay.value = n;
+  }
+
+  function updateRemoveVisibility(){
+    const blocks = container.querySelectorAll('.traveller-block');
+    blocks.forEach(b => {
+      b.querySelector('.remove-traveller').style.display = blocks.length > 1 ? 'block' : 'none';
+    });
+  }
+
+  document.getElementById('addTraveller').addEventListener('click', addTraveller);
+  addTraveller(); // start with one
+
+  document.getElementById('resetForm').addEventListener('click', () => {
+    if(!confirm('Clear all entered data?')) return;
+    document.getElementById('parteForm').reset();
+    container.innerHTML = '';
+    travellerCount = 0;
+    addTraveller();
+    document.getElementById('statusMsg').style.display = 'none';
+  });
+
+  function fieldLabel(container, cls){ return container.querySelector(cls); }
+
+  document.getElementById('parteForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const checkin = document.getElementById('checkin').value;
+    const checkout = document.getElementById('checkout').value;
+    if(!checkin || !checkout){
+      alert('Please fill in check-in and check-out dates.');
+      return;
+    }
+
+    const blocks = Array.from(container.querySelectorAll('.traveller-block'));
+    const travellers = [];
+    for(const b of blocks){
+      const name = b.querySelector('.f-name').value.trim();
+      const docTypeEl = b.querySelector('input[name^="doctype_"]:checked');
+      const docnum = b.querySelector('.f-docnum').value.trim();
+      const nationality = b.querySelector('.f-nationality').value.trim();
+      const dob = b.querySelector('.f-dob').value;
+      const sexEl = b.querySelector('input[name^="sex_"]:checked');
+      const address = b.querySelector('.f-address').value.trim();
+
+      if(!name || !docTypeEl || !docnum || !nationality || !dob || !sexEl || !address){
+        alert('Please complete all required fields for each traveller (name, document type & number, nationality, date of birth, sex, address).');
+        b.scrollIntoView({behavior:'smooth', block:'center'});
+        return;
+      }
+
+      travellers.push({
+        name,
+        docType: docTypeEl.value,
+        docNum: docnum,
+        support: b.querySelector('.f-support').value.trim(),
+        nationality,
+        dob,
+        sex: sexEl.value,
+        phone: b.querySelector('.f-phone').value.trim(),
+        email: b.querySelector('.f-email').value.trim(),
+        address,
+        relationship: b.querySelector('.f-relationship').value.trim(),
+        signature: b._sigApi ? b._sigApi.getDataUrl() : null
+      });
+    }
+
+    renderReview({checkin, checkout, travellers});
+  });
+
+  function fmtDate(d){
+    if(!d) return '—';
+    const [y,m,day] = d.split('-');
+    return `${day}/${m}/${y}`;
+  }
+
+  function renderReview(data){
+    const el = document.getElementById('reviewContent');
+    let html = `
+      <div class="rev-entry">
+        <h3>Stay details</h3>
+        <div class="rev-row"><span class="k">Property</span><span class="v">${PROPERTY_FIXED}</span></div>
+        <div class="rev-row"><span class="k">Check-in</span><span class="v">${fmtDate(data.checkin)}</span></div>
+        <div class="rev-row"><span class="k">Check-out</span><span class="v">${fmtDate(data.checkout)}</span></div>
+        <div class="rev-row"><span class="k">Number of travellers</span><span class="v">${data.travellers.length}</span></div>
+      </div>
+    `;
+    data.travellers.forEach((t, i) => {
+      html += `
+        <div class="rev-entry">
+          <h3>Traveller ${i+1}: ${escapeHtml(t.name)}</h3>
+          <div class="rev-row"><span class="k">Document type</span><span class="v">${escapeHtml(t.docType)}</span></div>
+          <div class="rev-row"><span class="k">Document number</span><span class="v">${escapeHtml(t.docNum)}</span></div>
+          ${t.support ? `<div class="rev-row"><span class="k">Support number</span><span class="v">${escapeHtml(t.support)}</span></div>` : ''}
+          <div class="rev-row"><span class="k">Nationality</span><span class="v">${escapeHtml(t.nationality)}</span></div>
+          <div class="rev-row"><span class="k">Date of birth</span><span class="v">${fmtDate(t.dob)}</span></div>
+          <div class="rev-row"><span class="k">Sex</span><span class="v">${escapeHtml(t.sex)}</span></div>
+          ${t.phone ? `<div class="rev-row"><span class="k">Phone</span><span class="v">${escapeHtml(t.phone)}</span></div>` : ''}
+          ${t.email ? `<div class="rev-row"><span class="k">Email</span><span class="v">${escapeHtml(t.email)}</span></div>` : ''}
+          <div class="rev-row"><span class="k">Home address</span><span class="v">${escapeHtml(t.address)}</span></div>
+          ${t.relationship ? `<div class="rev-row"><span class="k">Relationship (minor)</span><span class="v">${escapeHtml(t.relationship)}</span></div>` : ''}
+          <div class="rev-signature">
+            <div class="k">Traveller's signature</div>
+            ${t.signature ? `<img src="${t.signature}" alt="Signature of ${escapeHtml(t.name)}">` : `<span class="no-sig">Not signed</span>`}
+          </div>
+        </div>
+      `;
+    });
+    el.innerHTML = html;
+
+    document.getElementById('parteForm').style.display = 'none';
+    document.getElementById('review').style.display = 'block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  document.getElementById('backBtn').addEventListener('click', () => {
+    document.getElementById('review').style.display = 'none';
+    document.getElementById('parteForm').style.display = 'block';
+  });
+
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+})();
+</script>
+
+</body>
+</html>
