@@ -580,11 +580,11 @@
     <div class="grid">
       <div class="field">
         <label>Teléfono <span class="tr">· Phone</span></label>
-        <input type="tel" class="f-phone">
+        <input type="tel" class="f-phone" required>
       </div>
       <div class="field">
         <label>Email</label>
-        <input type="email" class="f-email">
+        <input type="email" class="f-email" required>
       </div>
     </div>
 
@@ -765,10 +765,12 @@
       const nationality = b.querySelector('.f-nationality').value.trim();
       const dob = b.querySelector('.f-dob').value;
       const sexEl = b.querySelector('input[name^="sex_"]:checked');
+      const phone = b.querySelector('.f-phone').value.trim();
+      const email = b.querySelector('.f-email').value.trim();
       const address = b.querySelector('.f-address').value.trim();
 
-      if(!name || !docTypeEl || !docnum || !nationality || !dob || !sexEl || !address){
-        alert('Please complete all required fields for each traveller (name, document type & number, nationality, date of birth, sex, address).');
+      if(!name || !docTypeEl || !docnum || !nationality || !dob || !sexEl || !phone || !email || !address){
+        alert('Please complete all required fields for each traveller (name, document type & number, nationality, date of birth, sex, phone, email, address).');
         b.scrollIntoView({behavior:'smooth', block:'center'});
         return;
       }
@@ -781,8 +783,8 @@
         nationality,
         dob,
         sex: sexEl.value,
-        phone: b.querySelector('.f-phone').value.trim(),
-        email: b.querySelector('.f-email').value.trim(),
+        phone,
+        email,
         address,
         relationship: b.querySelector('.f-relationship').value.trim(),
         signature: b._sigApi ? b._sigApi.getDataUrl() : null
