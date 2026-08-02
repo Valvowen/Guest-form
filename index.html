@@ -24,8 +24,7 @@
   *{box-sizing:border-box;}
   body{
     margin:0;
-    background:
-      linear-gradient(180deg, var(--sea-deep) 0%, var(--sea-deep) 120px, var(--bg) 120px);
+    background: var(--bg);
     color: var(--ink);
     font-family:'Inter', sans-serif;
     padding-bottom:80px;
@@ -36,10 +35,14 @@
     padding: 0 20px;
   }
   header.top{
+    background: var(--sea-deep);
+    padding: 34px 0 52px;
+    color:#f4f0e4;
+  }
+  header.top .inner{
     max-width:760px;
     margin:0 auto;
-    padding: 34px 20px 0;
-    color:#f4f0e4;
+    padding: 0 20px;
   }
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
@@ -430,10 +433,12 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow"><span class="dot"></span>Registro de Viajeros · Orihuela, Alicante</div>
-  <h1>Parte de Viajeros
-    <small>Guest registration for your stay · Registre des voyageurs</small>
-  </h1>
+  <div class="inner">
+    <div class="eyebrow"><span class="dot"></span>Registro de Viajeros · Orihuela, Alicante</div>
+    <h1>Parte de Viajeros
+      <small>Guest registration for your stay · Registre des voyageurs</small>
+    </h1>
+  </div>
 </header>
 
 <div class="wrap">
