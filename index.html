@@ -414,7 +414,10 @@
 
   @media print{
     body{background:#fff;}
-    header.top, .seal .fixed-tag, .card:not(#review .card), .actions, .add-traveller, .remove-traveller, .wave, form{display:none !important;}
+    header.top, .card:not(#review .card), .actions, .add-traveller, .remove-traveller, .wave, form{display:none !important;}
+    .seal{ margin-top: 0 !important; box-shadow: none !important; }
+    .seal .fixed-tag{ display: none !important; }
+    #review{ margin-top: 18px; }
     #review{display:block !important;}
   }
 
